@@ -21,7 +21,7 @@ docker-compose -f docker-compose.yml -f nginx/unsecure/docker-compose.yml up --b
 docker-compose -f docker-compose.yml -f nginx/unsecure/docker-compose.yml down -t <timeout>
 ```
 
-set `<timeout>` to a longer time in case it times out before graceful shutdown
+set `<timeout>` to a longer time to prevent time out before graceful shutdown
 
 #### secure mode
 ##### start `pds-backend` 
