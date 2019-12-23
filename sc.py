@@ -1,5 +1,5 @@
 import sys
-from pds.backend.plugin import init_plugin, delete_init_plugin
+from txrouter.plugin import init_plugin, delete_init_plugin
 
 def on_starting(server):
     print("starting server")

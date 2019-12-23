@@ -1,7 +1,0 @@
-version: '3'
-services:
-  pdsmpi-ref:
-    image: ryanoconnor285/pdsmpi-ref:0.1.0
-    port: 5000
-
-

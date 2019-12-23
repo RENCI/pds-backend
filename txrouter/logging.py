@@ -2,8 +2,8 @@ import syslog
 import time
 import logging
 import requests
-from pds.backend.utils import tstostr
-from pds.backend import plugin_config
+from txrouter.utils import tstostr
+from txrouter import plugin_config
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

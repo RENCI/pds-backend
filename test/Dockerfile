@@ -8,7 +8,7 @@ RUN pip3 install requests-jwt
 RUN pip3 install python-jose
 
 COPY test/test_pds_backend.py test_pds_backend.py
-COPY pds pds
+COPY txrouter txrouter
 COPY debug debug
 COPY api api
 

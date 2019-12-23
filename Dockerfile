@@ -8,7 +8,7 @@ RUN apk add gcc musl-dev libffi-dev openssl-dev
 RUN pip3 install --no-cache-dir connexion pymongo docker gunicorn[gevent]==19.9.0 flask-cors python-dateutil python-jose[cryptography]
 
 COPY api /usr/src/app/api
-COPY pds /usr/src/app/pds
+COPY txrouter /usr/src/app/txrouter
 COPY sc.py /usr/src/app/sc.py
 
 EXPOSE 8080

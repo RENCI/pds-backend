@@ -1,6 +1,6 @@
 import requests
-from pds.backend import plugin_config, plugin
-from pds.backend.logging import l
+from txrouter import plugin_config, plugin
+from txrouter.logging import l
 import logging
 import connexion
 import sys
