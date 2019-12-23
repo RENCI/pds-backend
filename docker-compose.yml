@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
   mongodb:
-    container_name: pds-backend-mongodb
-    image: zooh/tx-persistence:0.1.0
+    container_name: txrouter-mongodb
+    image: txscience/tx-persistence:latest
     restart: always
 #    volumes:
 #      - $MONGODB_DATA_DIR:/data/db
@@ -14,8 +14,8 @@ services:
       MONGO_NON_ROOT_USERNAME: $MONGO_NON_ROOT_USERNAME
       MONGO_NON_ROOT_PASSWORD: $MONGO_NON_ROOT_PASSWORD
 
-  pds-backend:
-    container_name: pds-backend
+  txrouter:
+    container_name: txrouter
     build:
       context: .
       dockerfile: Dockerfile

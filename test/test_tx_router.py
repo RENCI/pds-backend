@@ -27,7 +27,7 @@ headers = {"Authorization": f"Bearer {auth_token}"}
 
 headers2 = {"Authorization": f"Bearer {auth_token2}"}
 
-base_url = "http://pds-backend:8080/v1"
+base_url = "http://txrouter:8080/v1"
 
 @pytest.fixture(scope="session", autouse=True)
 def pause():
@@ -84,7 +84,7 @@ def pc2(temp_dir_name):
 
 
 echo_pc = {
-    "image": "pds-backend-test-flask-echo-server:0.1.0",
+    "image": "tx-router-test-flask-echo-server:latest",
     "environment": {},
     "name": "echo",
     "port": 80,
@@ -96,7 +96,7 @@ echo_pc = {
 }
 
 echo_pc2 = {
-    "image": "pds-backend-test-flask-echo-server:0.1.0",
+    "image": "tx-router-test-flask-echo-server:latest",
     "name": "echo2",
     "port": 80,
     "environment": {
@@ -109,7 +109,7 @@ echo_pc2 = {
 
 echo_pcs_dep = [
     {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "environment": {},
         "name": "echo",
         "port": 80,
@@ -118,7 +118,7 @@ echo_pcs_dep = [
             "PORT": "80"
         }
     }, {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "name": "echo2",
         "port": 80,
         "environment": {
@@ -133,13 +133,13 @@ echo_pcs_dep = [
 
 echo_pcs_dep2 = [
     {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "environment": {},
         "name": "echo",
         "port": 80,
         "depends_on": ["echo2"]
     }, {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "name": "echo2",
         "port": 80,
         "depends_on": ["echo"]
@@ -149,18 +149,18 @@ echo_pcs_dep2 = [
 
 echo_pcs_dep3 = [
     {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "environment": {},
         "name": "echo",
         "port": 80
     }, {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "environment": {},
         "name": "echo2",
         "port": 80,
         "depends_on": ["echo0"]
     }, {
-        "image": "pds-backend-test-flask-echo-server:0.1.0",
+        "image": "tx-router-test-flask-echo-server:latest",
         "name": "echo3",
         "port": 80,
         "depends_on": ["echo0"]

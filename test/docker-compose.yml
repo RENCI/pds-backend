@@ -2,12 +2,12 @@ version: '3.4'
 
 services:
     
-  pds-backend-test:
-    container_name: pds-backend-test
+  txrouter-test:
+    container_name: txrouter-test
     build:
       context: .
       dockerfile: test/Dockerfile
-    image: pds-backend-test:0.1.0
+    image: tx-router-test:latest
     command: ["-s", "-v", "-x"] # , "-k", "test_create_volume"]
     environment:
       COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
@@ -23,14 +23,14 @@ services:
       - /tmp:/tmp
     depends_on:
       - mongodb
-      - pds-backend
+      - txrouter
 
-  pds-backend-test-flask-echo-server:
-    container_name: pds-backend-test-flask-echo-server
+  txrouter-test-flask-echo-server:
+    container_name: txrouter-test-flask-echo-server
     build:
       context: test/flask-echo-server
       dockerfile: Dockerfile
-    image: pds-backend-test-flask-echo-server:0.1.0
+    image: tx-router-test-flask-echo-server:latest
     environment:
       HOST: 0.0.0.0
       PORT: 80
