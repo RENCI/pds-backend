@@ -605,7 +605,7 @@ def test_update_plugin_config_api():
         ps = plugin_config.get_plugin_configs(fil)
         assert len(ps) == 1
         resp = requests.post(f"{base_url}/admin/plugin/{name}", headers={"Content-Type": "application/json", **headers}, json=apc2)
-        assert resp.status_code == 200
+        assert (resp.status_code == 200 or resp.status_code == 204)
         ps = plugin_config.get_plugin_configs({})
         assert len(ps) == 1
         ps = plugin_config.get_plugin_configs(fil)
@@ -769,7 +769,7 @@ def test_run_plugin_container_api():
             apc = ps[0]
 
             resp = requests.put(f"{base_url}/admin/plugin/{name}/container", headers=headers)
-            assert resp.status_code == 200
+            assert (resp.status_code == 200 or resp.status_code == 204)
 
             resp = requests.get(f"{base_url}/plugin/{name}/index.json")
 
@@ -796,7 +796,7 @@ def test_get_plugin_config_api():
             apc["_id"] = str(apc["_id"])
 
             resp = requests.put(f"{base_url}/admin/plugin/{name}/container", headers=headers)
-            assert resp.status_code == 200
+            assert (resp.status_code == 200 or resp.status_code == 204)
 
             resp = requests.get(f"{base_url}/admin/plugin/{name}", headers=headers)
 
@@ -895,7 +895,7 @@ def test_get_plugin_container_api():
             apc = ps[0]
 
             resp = requests.put(f"{base_url}/admin/plugin/{name}/container", headers=headers)
-            assert resp.status_code == 200
+            assert (resp.status_code == 200 or resp.status_code == 204)
 
             resp = requests.get(f"{base_url}/admin/plugin/{name}/container", headers=headers)
 
@@ -922,7 +922,7 @@ def test_run_plugin_containers_api():
             apc = ps[0]
 
             resp = requests.put(f"{base_url}/admin/container", headers=headers)
-            assert resp.status_code == 200
+            assert (resp.status_code == 200 or resp.status_code == 204)
 
             resp = requests.get(f"{base_url}/plugin/{name}/index.json")
 
@@ -953,7 +953,7 @@ def test_get_plugin_containers_api():
             apc = ps[0]
 
             resp = requests.put(f"{base_url}/admin/container", headers=headers)
-            assert resp.status_code == 200
+            assert (resp.status_code == 200 or resp.status_code == 204)
 
             resp = requests.get(f"{base_url}/admin/container", headers=headers)
 
