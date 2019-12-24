@@ -69,6 +69,6 @@ services:
     build:
       context: ./nginx/unsecure
     ports:
-      - ${TXROUTER_API_PORT}:8080
+      - 8080:8080
     depends_on:
       - txrouter
