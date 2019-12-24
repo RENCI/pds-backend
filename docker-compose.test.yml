@@ -1,0 +1,68 @@
+version: '3.4'
+
+services:
+    
+  txrouter-test:
+    container_name: txrouter-test
+    build:
+      context: .
+      dockerfile: ./test/Dockerfile
+    image: tx-router-test:latest
+    command: ["-s", "-v", "-x"] # , "-k", "test_create_volume"]
+    environment:
+      COMPOSE_PROJECT_NAME: txrouter
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_COLLECTION: plugincollection
+      MONGO_DATABASE: plugindb
+      MONGO_USERNAME: db
+      MONGO_PASSWORD: collection
+      JWT_SECRET: secret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp
+    depends_on:
+      - mongodb
+      - txrouter
+
+  txrouter-test-flask-echo-server:
+    container_name: txrouter-test-flask-echo-server
+    build:
+      context: test/flask-echo-server
+      dockerfile: Dockerfile
+    image: tx-router-test-flask-echo-server:latest
+    environment:
+      HOST: 0.0.0.0
+      PORT: 80
+
+  mongodb:
+    container_name: txrouter-mongodb
+    image: txscience/tx-persistence:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: plugindb
+      MONGO_NON_ROOT_USERNAME: db
+      MONGO_NON_ROOT_PASSWORD: collection
+
+  txrouter:
+    container_name: txrouter
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      COMPOSE_PROJECT_NAME: txrouter
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_COLLECTION: plugincollection
+      MONGO_DATABASE: plugindb
+      MONGO_USERNAME: db
+      MONGO_PASSWORD: collection
+      ./test/plugin: /plugin
+      JWT_SECRET: secret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./test/plugin:/plugin
+    depends_on:
+      - mongodb
