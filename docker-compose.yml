@@ -13,7 +13,7 @@ services:
       MONGO_NON_ROOT_PASSWORD: ${TXROUTER_MONGO_NON_ROOT_PASSWORD}
 
   txrouter:
-    container_name: txrouter
+    container_name: tx-router
     build:
       context: .
       dockerfile: Dockerfile
