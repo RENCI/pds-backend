@@ -63,12 +63,3 @@ services:
       MONGO_INITDB_DATABASE: plugindb
       MONGO_NON_ROOT_USERNAME: db
       MONGO_NON_ROOT_PASSWORD: collection
-
-  txrouter-nginx:
-    container_name: txrouter-nginx
-    build:
-      context: ./nginx/unsecure
-    ports:
-      - 8080:8080
-    depends_on:
-      - txrouter
