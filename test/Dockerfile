@@ -3,7 +3,15 @@ FROM python:3-alpine
 RUN mkdir test
 WORKDIR test
 
-RUN pip3 install requests pytest pymongo docker pyyaml python-dateutil connexion
+RUN pip3 install \
+  connexion \
+  docker \
+  pymongo \
+  pytest \
+  python-dateutil \
+  pyyaml \
+  requests
+
 RUN pip3 install requests-jwt
 RUN pip3 install python-jose
 

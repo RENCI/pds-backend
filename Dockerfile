@@ -3,9 +3,20 @@ FROM python:3-alpine
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-RUN apk add gcc musl-dev libffi-dev openssl-dev
+RUN apk add \
+  gcc \ 
+  libffi-dev \
+  musl-dev \
+  openssl-dev
 
-RUN pip3 install --no-cache-dir connexion pymongo docker gunicorn[gevent]==19.9.0 flask-cors python-dateutil python-jose[cryptography]
+RUN pip3 install --no-cache-dir \
+  connexion \
+  docker \
+  flask-cors \
+  gunicorn[gevent]==19.9.0 \
+  pymongo \
+  python-dateutil \
+  python-jose[cryptography]
 
 COPY api /usr/src/app/api
 COPY txrouter /usr/src/app/txrouter

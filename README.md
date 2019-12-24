@@ -28,10 +28,6 @@ set `<timeout>` to a longer time to prevent time out before graceful shutdown
 
 set environmental variables, see test/env.src for examples.
 
-set the `TXROUTER_JWT_SECRET` environmental variable to a string
-
-set `TXROUTER_SSL_CERT_DIR` to a directory containing `cert.pem` and `key.pem`
-
 ```
 docker-compose -f docker-compose.yml -f nginx/secure/docker-compose.yml up --build -d -V
 ```
@@ -86,7 +82,7 @@ volumes:
 ```
 ## How to use
 
-### plugin configuration format used dynamically
+### Plugin configuration format used dynamically
 
 __For this release, all plugins must be a deployable docker container that also implements an OpenAPI__
 
@@ -112,6 +108,21 @@ Following is the format of a dynamic plugin configuration:
   depends_on: [ service ]
 }
 ```
+
+### Custom Environmental Variables
+
+The following can be set directly in the docker-compose.yml file or use the environmental variables in the example dockerfile
+
+*_COMPOSE_PROJECT_NAME_: user-defined docker "bridge" network is defined from this variable: "${COMPOSE_PROJECT_NAME}_default"
+*_INIT_PLUGIN_PATH_: path to the yml files for the plugins. See the pds-plugin repo for examples
+*_JWT_SECRET_: set to any secure string
+*_SSL_CERT_DIR_: to a directory containing `cert.pem` and `key.pem`
+*_MONGO_*_: varibles for using the MONGO database instance. Can be anything, pick something secure:
+ - MONGO_HOST
+ - MONGO_PORT
+ - MONGO_DATABASE
+ - MONGO_USERNAME
+ - MONGO_PASSWORD
 
 ## test
 ```
