@@ -1,11 +1,11 @@
 version: "3.4"
 services:
-  pds-backend-nginx:
+  txrouter-nginx:
     build:
       context: nginx/secure
     volumes:
-      - $SSL_CERT_DIR:/a
+      - ${TXROUTER_SSL_CERT_DIR}:/a
     ports:
-      - $API_PORT:8080
+      - ${TXROUTER_API_PORT}:8080
     depends_on:
-      - pds-backend
+      - txrouter
