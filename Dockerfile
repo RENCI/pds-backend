@@ -18,7 +18,7 @@ RUN pip3 install --no-cache-dir \
   get_docker_secret==1.0.1 \
   gevent==1.4.0 \
   gunicorn==19.10.0 \
-  pymongo \
+  pymongo==3.11.0 \
   python-dateutil \
   python-jose[cryptography]
 
