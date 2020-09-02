@@ -74,6 +74,7 @@ def run_container(pc):
     try:
         client.containers.get(name)
         logging.info(f"{name} has already been started")
+        stop_container(pc)
     except NotFound:
         pass
     
@@ -102,7 +103,6 @@ def stop_container(pc):
     logging.info(f"waiting for {name} to exit")
     exit_code = ret.wait()
     logging.info(f"{name} stopped {exit_code}")
-    sys.stdout.flush()
 
 
 def remove_container(pc):
