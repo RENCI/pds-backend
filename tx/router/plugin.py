@@ -2,6 +2,7 @@ import logging
 import json
 import docker
 from docker.types import Mount
+from docker.errors import NotFound
 import os
 import yaml
 import sys
@@ -70,6 +71,12 @@ def run_container(pc):
     name = pc["name"]
     client = docker.from_env()
 
+    try:
+        client.containers.get(name)
+        logging.info(f"{name} has already been started")
+    except NotFound:
+        pass
+    
     def source(l):
         source = l["source"]
         if os.sep in source:
