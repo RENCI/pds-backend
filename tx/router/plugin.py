@@ -75,6 +75,7 @@ def run_container(pc):
         client.containers.get(name)
         logging.info(f"{name} has already been started")
         stop_container(pc)
+        remove_container(pc)
     except NotFound:
         pass
     
