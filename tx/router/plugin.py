@@ -89,7 +89,7 @@ def run_container(pc):
     volumes = list(map(lambda l: Mount(l["target"], source(l), type=l["type"], read_only=l["read_only"]), pc.get("volumes", [])))
     logging.info("pc = {0}".format(pc))
     logging.info(f"starting {name}")
-    ret = client.containers.run(pc["image"], environment=pc.get("environment", {}), network=network(), mounts=volumes, detach=True, stdout=True, stderr=True, name=name, hostname=name)
+    ret = client.containers.run(pc["image"], network=network(), mounts=volumes, detach=True, stdout=True, stderr=True, name=name, hostname=name, **{k:v for k,v in pc.items() if k in ["command", "environment", "entrypoint", "restart_policy"]})
     logging.info(f"{name} started")
     return ret
 

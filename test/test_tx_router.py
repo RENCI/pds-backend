@@ -1233,3 +1233,19 @@ def test_delete_volume2():
         plugin.delete_volume(v0)
     
 
+def test_run_command():
+    try:
+        msg = "hello, world!"
+        pc = {
+            "image": "nginx:1.19.2",
+            "environment": {},
+            "name": "name",
+            "entrypoint": ["echo", msg]
+        }
+        
+        c = plugin.run_container(pc)
+        assert c.logs() == (msg + "\n").encode()
+        
+    finally:
+        plugin.stop_container(pc)
+        plugin.remove_container(pc)
