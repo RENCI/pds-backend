@@ -68,17 +68,20 @@ def network():
 
 
 def run_container(pc):
-    name = pc["name"]
     client = docker.from_env()
+
+    name = pc["name"]
+    image = pc["image"]
 
     try:
         ret = client.containers.get(name)
         logging.info(f"{name} has already been started")
-        if pc.get("restart_policy") == "always":
+        if ret.image.id == client.images.get(image).id:
+            return ret
+        else:
             stop_container(pc)
             remove_container(pc)
-        else:
-            return ret
+
     except NotFound:
         pass
     
@@ -93,7 +96,7 @@ def run_container(pc):
     volumes = list(map(lambda l: Mount(l["target"], source(l), type=l["type"], read_only=l["read_only"]), pc.get("volumes", [])))
     logging.info("pc = {0}".format(pc))
     logging.info(f"starting {name}")
-    ret = client.containers.run(pc["image"], network=network(), mounts=volumes, detach=True, stdout=True, stderr=True, name=name, hostname=name, **{k:v for k,v in pc.items() if k in ["command", "environment", "entrypoint", "restart_policy"]})
+    ret = client.containers.run(image, network=network(), mounts=volumes, detach=True, stdout=True, stderr=True, name=name, hostname=name, **{k:v for k,v in pc.items() if k in ["command", "environment", "entrypoint", "restart_policy"]})
     logging.info(f"{name} started")
     return ret
 
