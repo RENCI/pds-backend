@@ -72,10 +72,13 @@ def run_container(pc):
     client = docker.from_env()
 
     try:
-        client.containers.get(name)
+        ret = client.containers.get(name)
         logging.info(f"{name} has already been started")
-        stop_container(pc)
-        remove_container(pc)
+        if pc.get("restart_policy") == "always":
+            stop_container(pc)
+            remove_container(pc)
+        else:
+            return ret
     except NotFound:
         pass
     
