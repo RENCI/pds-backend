@@ -4,6 +4,8 @@ from tx.router.logging import l
 import logging
 import connexion
 import sys
+from werkzeug.datastructures import Headers
+from flask import Response
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -32,7 +34,7 @@ def get_plugin(name, path, headers, kwargs={}):
         raise RuntimeError("plugin doesn't have port")
 
     resp = requests.get("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, stream=True)
-    return resp.raw.read(), resp.status_code, resp.headers.items()
+    return Response(resp.iter_content(chuck_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers))
 
 
 @l("post", "backend")
@@ -47,7 +49,7 @@ def post_plugin(name, path, headers, body, kwargs={}):
         raise RuntimeError("plugin doesn't have port")
 
     resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, json=body, stream=True)
-    return resp.raw.read(), resp.status_code, resp.headers.items()
+    return Response(resp.iter_content(chuck_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers))
 
 
 def get_plugin_config(name):
