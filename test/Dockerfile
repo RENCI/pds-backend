@@ -9,6 +9,7 @@ RUN pip3 install \
   get_docker_secret==1.0.1 \
   pymongo \
   pytest \
+  pytest-timeout \
   python-dateutil \
   pyyaml \
   requests

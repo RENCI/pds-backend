@@ -6,6 +6,7 @@ import connexion
 import sys
 from werkzeug.datastructures import Headers
 from flask import Response, request
+from tempfile import TemporaryFile
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -47,7 +48,15 @@ def post_plugin(name, path, headers, stream, kwargs={}):
     if port is None:
         raise RuntimeError("plugin doesn't have port")
 
-    resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, data=stream, stream=True)
+    with TemporaryFile() as f:
+        chunk_size = 4096
+        while not stream.is_exhausted:
+            chunk = stream.read(chunk_size)
+            f.write(chunk)
+        f.seek(0, 0)
+            
+        resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, data=f, stream=True)
+
     return Response(resp.iter_content(chunk_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers.items()))
 
 
