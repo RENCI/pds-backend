@@ -5,7 +5,7 @@ import logging
 import connexion
 import sys
 from werkzeug.datastructures import Headers
-from flask import Response
+from flask import Response, request
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -16,8 +16,7 @@ def set_forwarded_path_header(f):
         forwarded_path0 = forwarded_path0_slash.rstrip("/")
         forwarded_path = f"{forwarded_path0}/v1/plugin/{name}"
         headers0 = {**headers, "X-Forwarded-Path": forwarded_path}
-        print("headers0 = " + str(headers0))
-        sys.stdout.flush()
+        logger.debug("headers0 = " + str(headers0))
         return f(name, path, headers0, *args, **kwargs)
     return func
 
@@ -34,12 +33,12 @@ def get_plugin(name, path, headers, kwargs={}):
         raise RuntimeError("plugin doesn't have port")
 
     resp = requests.get("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, stream=True)
-    return Response(resp.iter_content(chuck_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers))
+    return Response(resp.iter_content(chunk_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers.items()))
 
 
 @l("post", "backend")
 @set_forwarded_path_header
-def post_plugin(name, path, headers, body, kwargs={}):
+def post_plugin(name, path, headers, stream, kwargs={}):
     pc = plugin_config.get_plugin_config(name)
     if pc is None:
         return "not found", 404
@@ -48,8 +47,8 @@ def post_plugin(name, path, headers, body, kwargs={}):
     if port is None:
         raise RuntimeError("plugin doesn't have port")
 
-    resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, json=body, stream=True)
-    return Response(resp.iter_content(chuck_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers))
+    resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, data=stream, stream=True)
+    return Response(resp.iter_content(chunk_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers.items()))
 
 
 def get_plugin_config(name):

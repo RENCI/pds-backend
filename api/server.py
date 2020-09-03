@@ -15,7 +15,7 @@ def create_app():
         if request.method == "GET":
             return api.get_plugin(name, path, request.headers, kwargs=request.args.to_dict())
         elif request.method == "POST":
-            return api.post_plugin(name, path, request.headers, request.get_json(), kwargs=request.args.to_dict())
+            return api.post_plugin(name, path, request.headers, request.stream, kwargs=request.args.to_dict())
         else:
             raise RuntimeError("unsupported method " + request.method)
         
