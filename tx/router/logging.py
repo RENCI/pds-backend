@@ -23,13 +23,13 @@ post_headers = {
     "Accept": "application/json"
 }
 
-def l(event, source, log_ret=False):
+def l(event, source, log_args=False, log_ret=False):
     def function_wrapper(func):
         def function_wrapped(*args, **kwargs):
-            log(syslog.LOG_NOTICE, f"{event}_begin", timestamp(), source, *args, **kwargs)
+            log(syslog.LOG_NOTICE, f"{event}_begin", timestamp(), source, *(args if log_args else []), **(kwargs if log_args else {}))
             try:
                 ret = func(*args, **kwargs)
-                log(syslog.LOG_NOTICE, f"{event}_end", timestamp(), source, *args, **({"ret": ret} if log_ret else {}), **kwargs)
+                log(syslog.LOG_NOTICE, f"{event}_end", timestamp(), source, *(args if log_args else []), **({"ret": ret} if log_ret else {}), **(kwargs if log_args else {}))
                 return ret
             except Exception as e:
                 log(syslog.LOG_ERR, f"{event}_exception", timestamp(), source, *args, exception=e, **kwargs)
