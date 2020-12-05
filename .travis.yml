@@ -7,6 +7,8 @@ branches:
 env:
   - DOCKER_COMPOSE_VERSION=1.25.0
 
+dist: focal
+
 addons:
   apt:
     packages:
