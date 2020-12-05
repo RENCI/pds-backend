@@ -50,8 +50,10 @@ def post_plugin(name, path, headers, stream, kwargs={}):
 
     with TemporaryFile() as f:
         chunk_size = 4096
-        while not stream.is_exhausted:
+        while True:
             chunk = stream.read(chunk_size)
+            if len(chunk) == 0:
+                break
             f.write(chunk)
         f.seek(0, 0)
             

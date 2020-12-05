@@ -15,7 +15,6 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 hostcwd = os.environ.get("HOST_CWD", "")
 
-
 # from https://stackoverflow.com/questions/52412297/how-to-replace-environment-variable-value-in-yaml-file-to-be-parsed-using-python
 path_matcher2 = re.compile(r'.*\$\{([^}]+)\}.*')
 path_matcher = re.compile(r'\$\{([^}]+)\}')
@@ -33,6 +32,7 @@ def path_constructor(loader, node):
             env_var = match.group()[2:-1]
             value2 += value[i:match.start()] + os.environ[env_var]
             i = match.end()
+
 
 class EnvVarLoader(yaml.SafeLoader):
     pass

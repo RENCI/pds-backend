@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3.8-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -16,7 +16,8 @@ RUN pip3 install --no-cache-dir \
   docker==4.3.0 \
   flask-cors \
   get_docker_secret==1.0.1 \
-  gunicorn[gevent]==19.10.0 \
+  gevent==20.9.0 \
+  gunicorn[gevent]==20.0.4 \
   pymongo==3.11.0 \
   python-dateutil \
   python-jose[cryptography]
