@@ -1,6 +1,3 @@
-services:
-  - docker
-
 branches:
   only:
     - v0.1.0
