@@ -12,7 +12,7 @@ RUN apk add \
   make
 
 RUN pip3 install --no-cache-dir \
-  connexion \
+  connexion[swagger-ui] \
   docker==4.3.0 \
   flask-cors \
   get_docker_secret==1.0.1 \
