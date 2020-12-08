@@ -188,6 +188,7 @@ def test_run_container_get():
 
             container_name = apc["name"]
 
+            time.sleep(CLIENT_DELAY)
             resp = requests.get("http://{host}/index.json".format(host=container_name))
 
             assert resp.status_code == 200
@@ -212,6 +213,7 @@ def test_run_container_get_relative_path():
 
             container_name = apc["name"]
 
+            time.sleep(CLIENT_DELAY)
             resp = requests.get("http://{host}/index.json".format(host=container_name))
 
             assert resp.status_code == 200
