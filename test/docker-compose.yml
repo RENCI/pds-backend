@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: test/Dockerfile
     image: tx-router-test:${TX_TAG}
-    command: ["--capture=sys", "-v", "-x"] # , "--timeout", "100", "-k", "post_echo_proxy"]
+    command: ["--capture=sys", "-v", "-x"] # , "--timeout", "100", "-k", "test_run_container_get"]
     environment:
       API_PORT: ${TXROUTER_API_PORT}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}

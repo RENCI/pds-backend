@@ -35,12 +35,3 @@ services:
       - ${INIT_PLUGIN_PATH}:/plugin
     depends_on:
       - mongodb
-
-networks:
-  default:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: ${IPAM_CONFIG_SUBNET}
-  
