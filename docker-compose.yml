@@ -3,7 +3,7 @@ version: '3.4'
 services:
   mongodb:
     container_name: ${MONGO_CONTAINER}
-    image: tx-persistence:${tx_router_tx_persistence_TAG}
+    build: tx-persistence
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -14,7 +14,7 @@ services:
 
   txrouter:
     container_name: txrouter
-    image: tx-router:${tx_router_TAG}
+    build: .
     environment:
       API_PORT: ${TXROUTER_API_PORT}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
