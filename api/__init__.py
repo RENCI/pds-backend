@@ -40,6 +40,10 @@ def get_plugin(name, path, headers, kwargs={}):
 @l("post", "backend")
 @set_forwarded_path_header
 def post_plugin(name, path, headers, stream, kwargs={}):
+    return base_plugin(requests.post, name, path, headers, stream, kwargs)
+
+
+def base_plugin(method, name, path, headers, stream, kwargs):
     pc = plugin_config.get_plugin_config(name)
     if pc is None:
         return "not found", 404
@@ -57,9 +61,15 @@ def post_plugin(name, path, headers, stream, kwargs={}):
             f.write(chunk)
         f.seek(0, 0)
             
-        resp = requests.post("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, data=f, stream=True)
+        resp = method("http://{host}:{port}/{path}".format(host=pc["name"], port=port, path=path), headers=headers, params=kwargs, data=f, stream=True)
 
     return Response(resp.iter_content(chunk_size=1024*1024), status=resp.status_code, headers=Headers(resp.headers.items()))
+
+
+@l("delete", "backend")
+@set_forwarded_path_header
+def delete_plugin(name, path, headers, stream, kwargs={}):
+    return base_plugin(requests.delete, name, path, headers, stream, kwargs)
 
 
 def get_plugin_config(name):

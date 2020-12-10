@@ -518,6 +518,27 @@ def test_run_container_post_echo():
         plugin.remove_container(apc)
 
 
+def test_run_container_delete_echo():
+    s = "pds"
+    try:
+        apc = echo_pc
+
+        plugin.run_container(apc)
+
+        container_name = apc["name"]
+
+        time.sleep(CLIENT_DELAY)
+        resp = requests.delete(f"http://{container_name}", headers={"Content-Type": "application/json"}, json=s)
+
+        assert resp.status_code == 200
+        assert resp.json()["data"] == json.dumps(s)
+        assert resp.json()["method"] == "DELETE"
+
+    finally:
+        plugin.stop_container(apc)
+        plugin.remove_container(apc)
+
+
 def test_run_container_post_echo_proxy():
     s = "pds"
     try:
@@ -534,6 +555,29 @@ def test_run_container_post_echo_proxy():
         assert resp.status_code == 200
         assert resp.json()["data"] == json.dumps(s)
         assert resp.json()["method"] == "POST"
+
+    finally:
+        plugin.stop_container(apc)
+        plugin.remove_container(apc)
+        plugin_config.delete_plugin_configs({})
+
+
+def test_run_container_delete_echo_proxy():
+    s = "pds"
+    try:
+        apc = echo_pc
+
+        plugin_config.add_plugin_configs([apc])
+        plugin.run_container(apc)
+
+        container_name = apc["name"]
+
+        time.sleep(CLIENT_DELAY)
+        resp = requests.delete(f"{base_url}/plugin/{container_name}/index.json", headers={"Content-Type": "application/json"}, json=s)
+
+        assert resp.status_code == 200
+        assert resp.json()["data"] == json.dumps(s)
+        assert resp.json()["method"] == "DELETE"
 
     finally:
         plugin.stop_container(apc)
