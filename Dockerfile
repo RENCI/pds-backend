@@ -9,8 +9,13 @@ RUN apk add \
   musl-dev \
   openssl-dev \
   file \
-  make
+  make \ 
+  g++ 
+# cargo \
+# rust 
 
+# RUN export CRYPTOGRAPHY_DONT_BUILD_RUST=1
+RUN pip3 install 'cryptography<=3'
 RUN pip3 install --no-cache-dir \
   connexion[swagger-ui] \
   docker==4.3.0 \
